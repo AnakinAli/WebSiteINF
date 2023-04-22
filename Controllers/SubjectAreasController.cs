@@ -11,104 +11,93 @@ using WebSiteINF.Models;
 
 namespace WebSiteINF.Controllers
 {
-    public class AdsController : Controller
+    public class SubjectAreasController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AdsController(ApplicationDbContext context)
+        public SubjectAreasController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Ads
+        // GET: SubjectAreas
         public async Task<IActionResult> Index()
         {
-              return _context.Ad != null ? 
-                          View(await _context.Ad.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Ad'  is null.");
+              return _context.SubjectArea != null ? 
+                          View(await _context.SubjectArea.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.SubjectArea'  is null.");
         }
 
-        // GET: Ads
-        public async Task<IActionResult> GetAds()
-        {
-            return _context.Ad != null ?
-                        View(await _context.Ad.ToListAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.Ad'  is null.");
-        }
-
-        
-
-        // GET: Ads/Details/5
+        // GET: SubjectAreas/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Ad == null)
+            if (id == null || _context.SubjectArea == null)
             {
                 return NotFound();
             }
 
-            var ad = await _context.Ad
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (ad == null)
+            var subjectArea = await _context.SubjectArea
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (subjectArea == null)
             {
                 return NotFound();
             }
 
-            return View(ad);
+            return View(subjectArea);
         }
 
+        // GET: SubjectAreas/Create
         [Authorize]
-        // GET: Ads/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Ads/Create
+        // POST: SubjectAreas/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,AdminID,ImageLink,Text,Title")] Ad ad)
+        public async Task<IActionResult> Create([Bind("Id,SubjectAreaDisctiption")] SubjectArea subjectArea)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(ad);
+                _context.Add(subjectArea);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(ad);
+            return View(subjectArea);
         }
 
-        // GET: Ads/Edit/5
+        // GET: SubjectAreas/Edit/5
         [Authorize]
 
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Ad == null)
+            if (id == null || _context.SubjectArea == null)
             {
                 return NotFound();
             }
 
-            var ad = await _context.Ad.FindAsync(id);
-            if (ad == null)
+            var subjectArea = await _context.SubjectArea.FindAsync(id);
+            if (subjectArea == null)
             {
                 return NotFound();
             }
-            return View(ad);
+            return View(subjectArea);
         }
 
-        // POST: Ads/Edit/5
+        // POST: SubjectAreas/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
 
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,AdminID,ImageLink,Text,Title")] Ad ad)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,SubjectAreaDisctiption")] SubjectArea subjectArea)
         {
-            if (id != ad.ID)
+            if (id != subjectArea.Id)
             {
                 return NotFound();
             }
@@ -117,12 +106,12 @@ namespace WebSiteINF.Controllers
             {
                 try
                 {
-                    _context.Update(ad);
+                    _context.Update(subjectArea);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AdExists(ad.ID))
+                    if (!SubjectAreaExists(subjectArea.Id))
                     {
                         return NotFound();
                     }
@@ -133,53 +122,53 @@ namespace WebSiteINF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(ad);
+            return View(subjectArea);
         }
 
-        // GET: Ads/Delete/5
+        // GET: SubjectAreas/Delete/5
         [Authorize]
 
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Ad == null)
+            if (id == null || _context.SubjectArea == null)
             {
                 return NotFound();
             }
 
-            var ad = await _context.Ad
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (ad == null)
+            var subjectArea = await _context.SubjectArea
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (subjectArea == null)
             {
                 return NotFound();
             }
 
-            return View(ad);
+            return View(subjectArea);
         }
 
-        // POST: Ads/Delete/5
+        // POST: SubjectAreas/Delete/5
         [HttpPost, ActionName("Delete")]
         [Authorize]
 
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Ad == null)
+            if (_context.SubjectArea == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Ad'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.SubjectArea'  is null.");
             }
-            var ad = await _context.Ad.FindAsync(id);
-            if (ad != null)
+            var subjectArea = await _context.SubjectArea.FindAsync(id);
+            if (subjectArea != null)
             {
-                _context.Ad.Remove(ad);
+                _context.SubjectArea.Remove(subjectArea);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AdExists(int id)
+        private bool SubjectAreaExists(int id)
         {
-          return (_context.Ad?.Any(e => e.ID == id)).GetValueOrDefault();
+          return (_context.SubjectArea?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }

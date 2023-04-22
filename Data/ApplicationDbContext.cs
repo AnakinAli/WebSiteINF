@@ -11,5 +11,8 @@ namespace WebSiteINF.Data
         {
         }
         public DbSet<WebSiteINF.Models.Ad> Ad { get; set; } = default!;
+        public DbSet<WebSiteINF.Models.AboutUs> AboutUs { get; set; } = default!;
+        public DbSet<WebSiteINF.Models.Service> Service { get; set; } = default!;
+        public DbSet<WebSiteINF.Models.SubjectArea> SubjectArea { get; set; } = default!;
     }
 }

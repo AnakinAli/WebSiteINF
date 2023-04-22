@@ -34,10 +34,25 @@
                         </li>
                         @if (SignInManager.IsSignedIn(User))
                         {
-                                <li class="nav-item">
-            <a  class="nav-link text-dark" asp-area="Identity" asp-controller="Ads" asp-action="Index"  title="Manage">Add ADS</a>
-        </li>
-        }
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="Identity" asp-controller="Ads" asp-action="Index" title="Add ADs">Add ADS</a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link text-dark"  asp-controller="Home" asp-action="GetUsers" title="Show Users">Show Users</a>
+                            </li>
+
+                           
+                        }
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Identity" asp-controller="AboutUs" asp-action="Index" title="About Us">About Us</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Identity" asp-controller="Services" asp-action="Index" title="Services">Services</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Identity" asp-controller="SubjectAreas" asp-action="Index" title="Subject Area">Subject Area</a>
+                        </li>
                     </ul>
                     <partial name="_LoginPartial" />
                 </div>

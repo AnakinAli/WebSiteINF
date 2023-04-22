@@ -2,6 +2,7 @@
 using System.Diagnostics;
 using WebSiteINF.Models;
 
+using Microsoft.AspNetCore.Identity;
 namespace WebSiteINF.Controllers
 {
     public class HomeController : Controller
@@ -27,6 +28,11 @@ namespace WebSiteINF.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public IActionResult GetUsers()
+        {
+            return View();
         }
     }
 }

@@ -11,104 +11,89 @@ using WebSiteINF.Models;
 
 namespace WebSiteINF.Controllers
 {
-    public class AdsController : Controller
+    public class AboutUsController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AdsController(ApplicationDbContext context)
+        public AboutUsController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Ads
+        // GET: AboutUs
         public async Task<IActionResult> Index()
         {
-              return _context.Ad != null ? 
-                          View(await _context.Ad.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Ad'  is null.");
+              return _context.AboutUs != null ? 
+                          View(await _context.AboutUs.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.AboutUs'  is null.");
         }
-
-        // GET: Ads
-        public async Task<IActionResult> GetAds()
-        {
-            return _context.Ad != null ?
-                        View(await _context.Ad.ToListAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.Ad'  is null.");
-        }
-
         
-
-        // GET: Ads/Details/5
+        // GET: AboutUs/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Ad == null)
+            if (id == null || _context.AboutUs == null)
             {
                 return NotFound();
             }
 
-            var ad = await _context.Ad
+            var aboutUs = await _context.AboutUs
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (ad == null)
+            if (aboutUs == null)
             {
                 return NotFound();
             }
 
-            return View(ad);
+            return View(aboutUs);
         }
-
         [Authorize]
-        // GET: Ads/Create
+        // GET: AboutUs/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Ads/Create
+        // POST: AboutUs/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,AdminID,ImageLink,Text,Title")] Ad ad)
+        public async Task<IActionResult> Create([Bind("ID,Location,TelephoneNumber,TeamEmail")] AboutUs aboutUs)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(ad);
+                _context.Add(aboutUs);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(ad);
+            return View(aboutUs);
         }
-
-        // GET: Ads/Edit/5
         [Authorize]
-
+        // GET: AboutUs/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Ad == null)
+            if (id == null || _context.AboutUs == null)
             {
                 return NotFound();
             }
 
-            var ad = await _context.Ad.FindAsync(id);
-            if (ad == null)
+            var aboutUs = await _context.AboutUs.FindAsync(id);
+            if (aboutUs == null)
             {
                 return NotFound();
             }
-            return View(ad);
+            return View(aboutUs);
         }
 
-        // POST: Ads/Edit/5
+        // POST: AboutUs/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,AdminID,ImageLink,Text,Title")] Ad ad)
+        public async Task<IActionResult> Edit(int id, [Bind("ID,Location,TelephoneNumber,TeamEmail")] AboutUs aboutUs)
         {
-            if (id != ad.ID)
+            if (id != aboutUs.ID)
             {
                 return NotFound();
             }
@@ -117,12 +102,12 @@ namespace WebSiteINF.Controllers
             {
                 try
                 {
-                    _context.Update(ad);
+                    _context.Update(aboutUs);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AdExists(ad.ID))
+                    if (!AboutUsExists(aboutUs.ID))
                     {
                         return NotFound();
                     }
@@ -133,53 +118,51 @@ namespace WebSiteINF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(ad);
+            return View(aboutUs);
         }
 
-        // GET: Ads/Delete/5
+        // GET: AboutUs/Delete/5
         [Authorize]
-
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Ad == null)
+            if (id == null || _context.AboutUs == null)
             {
                 return NotFound();
             }
 
-            var ad = await _context.Ad
+            var aboutUs = await _context.AboutUs
                 .FirstOrDefaultAsync(m => m.ID == id);
-            if (ad == null)
+            if (aboutUs == null)
             {
                 return NotFound();
             }
 
-            return View(ad);
+            return View(aboutUs);
         }
 
-        // POST: Ads/Delete/5
+        // POST: AboutUs/Delete/5
         [HttpPost, ActionName("Delete")]
-        [Authorize]
-
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Ad == null)
+            if (_context.AboutUs == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Ad'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.AboutUs'  is null.");
             }
-            var ad = await _context.Ad.FindAsync(id);
-            if (ad != null)
+            var aboutUs = await _context.AboutUs.FindAsync(id);
+            if (aboutUs != null)
             {
-                _context.Ad.Remove(ad);
+                _context.AboutUs.Remove(aboutUs);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AdExists(int id)
+        private bool AboutUsExists(int id)
         {
-          return (_context.Ad?.Any(e => e.ID == id)).GetValueOrDefault();
+          return (_context.AboutUs?.Any(e => e.ID == id)).GetValueOrDefault();
         }
     }
 }

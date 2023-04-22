@@ -11,104 +11,91 @@ using WebSiteINF.Models;
 
 namespace WebSiteINF.Controllers
 {
-    public class AdsController : Controller
+    public class ServicesController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public AdsController(ApplicationDbContext context)
+        public ServicesController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: Ads
+        // GET: Services
         public async Task<IActionResult> Index()
         {
-              return _context.Ad != null ? 
-                          View(await _context.Ad.ToListAsync()) :
-                          Problem("Entity set 'ApplicationDbContext.Ad'  is null.");
+              return _context.Service != null ? 
+                          View(await _context.Service.ToListAsync()) :
+                          Problem("Entity set 'ApplicationDbContext.Service'  is null.");
         }
 
-        // GET: Ads
-        public async Task<IActionResult> GetAds()
-        {
-            return _context.Ad != null ?
-                        View(await _context.Ad.ToListAsync()) :
-                        Problem("Entity set 'ApplicationDbContext.Ad'  is null.");
-        }
-
-        
-
-        // GET: Ads/Details/5
+        // GET: Services/Details/5
         public async Task<IActionResult> Details(int? id)
         {
-            if (id == null || _context.Ad == null)
+            if (id == null || _context.Service == null)
             {
                 return NotFound();
             }
 
-            var ad = await _context.Ad
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (ad == null)
+            var service = await _context.Service
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (service == null)
             {
                 return NotFound();
             }
 
-            return View(ad);
+            return View(service);
         }
 
+        // GET: Services/Create
         [Authorize]
-        // GET: Ads/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Ads/Create
+        // POST: Services/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("ID,AdminID,ImageLink,Text,Title")] Ad ad)
+        public async Task<IActionResult> Create([Bind("Id,ServiceName")] Service service)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(ad);
+                _context.Add(service);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(ad);
+            return View(service);
         }
 
-        // GET: Ads/Edit/5
+        // GET: Services/Edit/5
         [Authorize]
-
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Ad == null)
+            if (id == null || _context.Service == null)
             {
                 return NotFound();
             }
 
-            var ad = await _context.Ad.FindAsync(id);
-            if (ad == null)
+            var service = await _context.Service.FindAsync(id);
+            if (service == null)
             {
                 return NotFound();
             }
-            return View(ad);
+            return View(service);
         }
 
-        // POST: Ads/Edit/5
+        // POST: Services/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [Authorize]
-
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("ID,AdminID,ImageLink,Text,Title")] Ad ad)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,ServiceName")] Service service)
         {
-            if (id != ad.ID)
+            if (id != service.Id)
             {
                 return NotFound();
             }
@@ -117,12 +104,12 @@ namespace WebSiteINF.Controllers
             {
                 try
                 {
-                    _context.Update(ad);
+                    _context.Update(service);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!AdExists(ad.ID))
+                    if (!ServiceExists(service.Id))
                     {
                         return NotFound();
                     }
@@ -133,53 +120,51 @@ namespace WebSiteINF.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(ad);
+            return View(service);
         }
 
-        // GET: Ads/Delete/5
+        // GET: Services/Delete/5
         [Authorize]
-
         public async Task<IActionResult> Delete(int? id)
         {
-            if (id == null || _context.Ad == null)
+            if (id == null || _context.Service == null)
             {
                 return NotFound();
             }
 
-            var ad = await _context.Ad
-                .FirstOrDefaultAsync(m => m.ID == id);
-            if (ad == null)
+            var service = await _context.Service
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (service == null)
             {
                 return NotFound();
             }
 
-            return View(ad);
+            return View(service);
         }
 
-        // POST: Ads/Delete/5
+        // POST: Services/Delete/5
         [HttpPost, ActionName("Delete")]
         [Authorize]
-
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            if (_context.Ad == null)
+            if (_context.Service == null)
             {
-                return Problem("Entity set 'ApplicationDbContext.Ad'  is null.");
+                return Problem("Entity set 'ApplicationDbContext.Service'  is null.");
             }
-            var ad = await _context.Ad.FindAsync(id);
-            if (ad != null)
+            var service = await _context.Service.FindAsync(id);
+            if (service != null)
             {
-                _context.Ad.Remove(ad);
+                _context.Service.Remove(service);
             }
             
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool AdExists(int id)
+        private bool ServiceExists(int id)
         {
-          return (_context.Ad?.Any(e => e.ID == id)).GetValueOrDefault();
+          return (_context.Service?.Any(e => e.Id == id)).GetValueOrDefault();
         }
     }
 }
